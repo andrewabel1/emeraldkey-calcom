@@ -1,0 +1,5 @@
+[phases.build]
+nixpkgsArchive = "ba913eda2df8eb72147259189d55932012df6301"
+
+[phases.build.env]
+NODE_OPTIONS = "--max-old-space-size=8192"
