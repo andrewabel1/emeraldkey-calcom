@@ -10,7 +10,7 @@ ARG CALCOM_TELEMETRY_DISABLED
 ARG DATABASE_URL
 ARG NEXTAUTH_SECRET=secret
 ARG CALENDSO_ENCRYPTION_KEY=secret
-ARG MAX_OLD_SPACE_SIZE=4096
+ARG MAX_OLD_SPACE_SIZE=6144
 ARG NEXT_PUBLIC_API_V2_URL
 ARG CSP_POLICY
 
@@ -47,6 +47,11 @@ RUN yarn install
 # Build and make embed servable from web/public/embed folder
 RUN yarn workspace @calcom/trpc run build
 RUN yarn --cwd packages/embeds/embed-core workspace @calcom/embed-core run build
+
+# Disable source maps to save memory during build
+ENV GENERATE_SOURCEMAP=false
+ENV NEXTJS_IGNORE_ESLINT=1
+
 RUN yarn --cwd apps/web workspace @calcom/web run build
 RUN rm -rf node_modules/.cache .yarn/cache apps/web/.next/cache
 
